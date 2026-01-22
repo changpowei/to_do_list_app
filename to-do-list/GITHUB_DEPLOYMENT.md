@@ -16,7 +16,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/to-do-list/', // <--- 請將這裡改成你的 Git Repository 名稱，前後都要有斜線
+  base: '/to_do_list_app/', // <--- 請將這裡改成你的 Git Repository 名稱，前後都要有斜線
 })
 ```
 
@@ -24,14 +24,22 @@ export default defineConfig({
 
 ## 2. 建立 GitHub Actions Workflow
 
-我都幫你準備好了！我已經在專案中建立了 `.github/workflows/deploy.yml` 檔案。
-這個檔案會告訴 GitHub 當你 Push 程式碼時，自動執行以下步驟：
-1. 安裝環境 (Node.js)
-2. 安裝套件 (npm ci)
-3. 建置專案 (npm run build)
-4. 將 `dist` 資料夾部署到 `gh-pages` 分支
+因為您的專案結構是 `root -> to-do-list/`，我已經將 workflow檔案移動到了 **專案根目錄** 的 `.github/workflows/deploy.yml`。
 
-你不需要做任何額外設定，只要確保 `.github/workflows/deploy.yml` 存在即可。
+並且我也修改了該檔案，讓它知道要去 `./to-do-list` 資料夾裡面進行 Build。
+
+**您需要執行以下指令來更新檔案位置：**
+
+```bash
+# 回到根目錄 (to_do_list_app)
+cd /home/c95cpw/antigravity/antigravity_container/to_do_list_app
+
+# 確保 .github 資料夾被 Git 追蹤
+git add .github
+git add to-do-list/.github  # 如果舊的還在，git可能會顯示刪除，這行是為了確保變更被加入
+git commit -m "Fix: Move workflow to root and support subdirectory"
+git push
+```
 
 ## 3. 推送到 GitHub
 
@@ -66,9 +74,9 @@ git push -u origin main
 1. 進入 GitHub Repository 的 **Settings** (設定)。
 2. 左側選單點選 **Pages**。
 3. 在 **Build and deployment** 區塊：
-    - **Source**: 選擇 `Deploy from a branch`。
-    - **Branch**: 選擇 `gh-pages` 分支 (這是 Actions 自動建立的)，並選擇 `/ (root)`。
-    - 按下 **Save**。
+    - **Source**: 請改選 **`GitHub Actions`** (非常重要！)。
+    - (不需要選擇 Branch，因為 Workflow 會自動處理)。
+
 
 (有時候 GitHub Actions @v4 會自動幫你設定好 Pages，如果這一 步已經是正確的就不需變更)。
 

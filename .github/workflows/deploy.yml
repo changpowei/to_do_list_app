@@ -12,6 +12,12 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    # Setup working directory to the react app folder
+    defaults:
+      run:
+        working-directory: ./to-do-list
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,6 +27,8 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          # Important: Specify cache path to the subfolder package-lock.json
+          cache-dependency-path: ./to-do-list/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -34,8 +42,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload dist repository
-          path: './dist'
+          # Upload the dist folder from the subfolder
+          path: './to-do-list/dist'
 
   deploy:
     environment:

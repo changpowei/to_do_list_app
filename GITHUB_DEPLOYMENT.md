@@ -24,20 +24,17 @@ export default defineConfig({
 
 ## 2. 建立 GitHub Actions Workflow
 
-因為您的專案結構是 `root -> to-do-list/`，我已經將 workflow檔案移動到了 **專案根目錄** 的 `.github/workflows/deploy.yml`。
+因為您已經將專案移動到根目錄，我已經更新了 `.github/workflows/deploy.yml` 檔案，移除了之前的子目錄設定。
 
-並且我也修改了該檔案，讓它知道要去 `./to-do-list` 資料夾裡面進行 Build。
-
-**您需要執行以下指令來更新檔案位置：**
+**您需要執行以下指令來更新檔案變更：**
 
 ```bash
-# 回到根目錄 (to_do_list_app)
+# 確保在根目錄
 cd /home/c95cpw/antigravity/antigravity_container/to_do_list_app
 
-# 確保 .github 資料夾被 Git 追蹤
-git add .github
-git add to-do-list/.github  # 如果舊的還在，git可能會顯示刪除，這行是為了確保變更被加入
-git commit -m "Fix: Move workflow to root and support subdirectory"
+# 加入變更並推送
+git add .github/workflows/deploy.yml
+git commit -m "Fix: Update workflow for root directory structure"
 git push
 ```
 
